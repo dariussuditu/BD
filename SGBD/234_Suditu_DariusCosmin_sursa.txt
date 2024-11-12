@@ -1,0 +1,567 @@
+
+CREATE TABLE Pizza
+(
+  ID_Pizza VARCHAR2(10) NOT NULL,
+  Nume VARCHAR2(20) NOT NULL,
+  Tip VARCHAR2(20) NOT NULL,
+  Pret int not null,
+  
+  PRIMARY KEY (ID_Pizza)
+);
+
+
+
+
+CREATE TABLE Locatie
+(
+  ID_Locatie VARCHAR2(10) NOT NULL,
+  Oras VARCHAR2(20) NOT NULL,
+  Strada VARCHAR2(30),
+  Cod_postal VARCHAR2(10) NOT NULL,
+  
+  PRIMARY KEY (ID_Locatie)
+);
+
+CREATE TABLE Pizzerie
+(
+  ID_PIZZERIE VARCHAR2(20) NOT NULL,
+  Nume VARCHAR2(10) NOT NULL,
+  numar_telefon VARCHAR2(10),
+  Capacitate int not null,
+  ID_Locatie VARCHAR2(10) NOT NULL,
+  PRIMARY KEY (ID_Pizzerie),
+  FOREIGN KEY (ID_Locatie) REFERENCES Locatie(ID_Locatie)
+);
+
+
+
+
+CREATE TABLE Client
+(
+  ID_Client INT NOT NULL,
+  Nume VARCHAR2(20) NOT NULL,
+  Email VARCHAR2(30),
+  PRIMARY KEY (ID_Client)
+);
+
+create TABLE Angajat(
+ID_Angajat int not null,
+Nume VARCHAR2(50) not null,
+Specializare VARCHAR2(20) not null,
+Salariu int not null,
+ID_Pizzerie VARCHAR2(10) NOT NULL,
+Data_Angajare date not null,
+Email VARCHAR2(50),
+
+PRIMARY KEY (ID_Angajat),
+FOREIGN KEY (ID_Pizzerie) REFERENCES Pizzerie(ID_Pizzerie)
+);
+
+
+
+create TABLE Recenzie(
+ID_Recenzie int not null primary key,
+Data_Recenzie date,
+Rating int not null,
+Comentariu VARCHAR2(50) NOT NULL,
+ID_Client int not null,
+ID_Pizzerie VARCHAR2(10) not null,
+
+foreign key(ID_Client) references Client(ID_Client),
+foreign key(ID_Pizzerie) references Pizzerie(ID_Pizzerie)
+);
+
+
+create TABLE Promotie(
+ID_Promotie int not null primary key,
+Data_Start date,
+Data_Stop date,
+Valoare_Reducere int not null,
+ID_Pizza VARCHAR2(10) not null,
+
+foreign key(ID_Pizza) references Pizza(ID_Pizza)
+);
+
+
+
+
+CREATE TABLE Comanda
+(
+  ID_Comanda INT NOT NULL,
+  Data_Comanda date,
+  ID_Pizzerie VARCHAR2(10) NOT NULL,
+  ID_Client INT NOT NULL,
+  PRIMARY KEY (ID_Comanda),
+  FOREIGN KEY (ID_Pizzerie) REFERENCES Pizzerie(ID_Pizzerie),
+  FOREIGN KEY (ID_Client) REFERENCES Client(ID_Client)
+);
+
+
+CREATE TABLE COMANDA_PIZZA (
+    ID_Pizza VARCHAR2(10) NOT NULL,
+    ID_Comanda INT NOT NULL,
+    Cantitate INT NOT NULL,
+    PRIMARY KEY (ID_Pizza, ID_Comanda),
+    FOREIGN KEY (ID_Pizza) REFERENCES Pizza(ID_Pizza),
+    FOREIGN KEY (ID_Comanda) REFERENCES Comanda(ID_Comanda)
+);
+
+
+
+
+
+insert into Client (ID_Client, nume, email) VALUES (1, 'Ana Popescu', 'ana.popescu@example.com');
+insert into Client (ID_Client, nume, email) VALUES(2, 'Mihai Ionescu', 'mihai.ionescu@example.com');
+insert into Client (ID_Client, nume, email) VALUES(3, 'Ioana Dumitrescu', 'ioana.dumitrescu@example.com');
+insert into Client (ID_Client, nume, email) VALUES(4, 'Andrei Georgescu', 'andrei.georgescu@example.com');
+insert into Client (ID_Client, nume, email) VALUES(5, 'Elena Radu', 'elena.radu@example.com');
+insert into Client (ID_Client, nume, email) VALUES(6, 'Elena Radu', 'elena.radu@example.com');
+select * from client;
+
+
+
+insert into Locatie (ID_Locatie,  Oras, Strada, Cod_postal) VALUES('RO001',  'Bucharest', 'Nordului', '010101');
+insert into Locatie (ID_Locatie,  Oras, Strada, Cod_postal) VALUES('RO002', 'Cluj-Napoca', 'Gheorghe Titeica', '020202');
+insert into Locatie (ID_Locatie, Oras, Strada, Cod_postal) VALUES('RO003', 'Timisoara', 'Brailita', '030303');
+insert into Locatie (ID_Locatie,  Oras, Strada, Cod_postal) VALUES('RO004', 'Iasi', 'Mugur Mugurel', '040404');
+insert into Locatie (ID_Locatie, Oras, Strada, Cod_postal) VALUES('RO005', 'Constanta', 'Poenaru', '050505');
+insert into Locatie (ID_Locatie,  Oras, Strada, Cod_postal) VALUES('RO006', 'Brasov', 'Sforii', '060606');
+insert into Locatie (ID_Locatie,  Oras, Strada, Cod_postal) VALUES('RO007','Iasi', 'Radului', '101010');
+insert into Locatie (ID_Locatie,  Oras, Strada, Cod_postal) VALUES('RO008', 'Bucuresti', 'Floreasca', '202020');
+insert into Locatie (ID_Locatie,  Oras, Strada, Cod_postal) VALUES('RO009', 'Bucuresti', 'Arcului', '303030');
+insert into Locatie (ID_Locatie,  Oras, Strada, Cod_postal) VALUES('RO010', 'Constanta', 'Plajei', '001122');
+select * from locatie;
+
+
+
+insert into Pizzerie (ID_Pizzerie, Nume, numar_telefon,Capacitate, ID_Locatie) VALUES ('PIZZ001', 'Pizzerie1', '1234567890',88, 'RO001');
+insert into Pizzerie (ID_Pizzerie, Nume, numar_telefon,Capacitate, ID_Locatie) VALUES('PIZZ002', 'Pizzerie2', '0987654321',25, 'RO002');
+insert into Pizzerie (ID_Pizzerie, Nume, numar_telefon,Capacitate, ID_Locatie) VALUES('PIZZ003', 'Pizzerie3', '1112223333',40, 'RO003');
+insert into Pizzerie (ID_Pizzerie, Nume, numar_telefon,Capacitate, ID_Locatie) VALUES('PIZZ004', 'Pizzerie4', '4445556666',100, 'RO007');
+insert into Pizzerie (ID_Pizzerie, Nume, numar_telefon,Capacitate, ID_Locatie) VALUES('PIZZ005', 'Pizzerie5', '7778889999',55, 'RO009');
+insert into Pizzerie (ID_Pizzerie, Nume, numar_telefon,Capacitate, ID_Locatie) VALUES('PIZZ006', 'Pizzerie6', '89999',12, 'RO005');
+select * from Pizzerie;
+
+
+
+INSERT INTO Angajat (ID_Angajat, Nume, Specializare, Salariu, ID_Pizzerie, Data_Angajare, Email) VALUES (1, 'Ion Popescu', 'Buc?tar', 3000, 'PIZZ001', TO_DATE('2023-01-10', 'YYYY-MM-DD'), 'ion.p@pizzerie1.ro');
+INSERT INTO Angajat (ID_Angajat, Nume, Specializare, Salariu, ID_Pizzerie, Data_Angajare, Email) VALUES (2, 'Maria Ionescu', 'Menajera', 2500, 'PIZZ001', TO_DATE('2023-02-15', 'YYYY-MM-DD'), 'maria.i@pizzerie1.ro');
+INSERT INTO Angajat (ID_Angajat, Nume, Specializare, Salariu, ID_Pizzerie, Data_Angajare, Email) VALUES (3, 'Alexandru Georgescu', 'Ospatar', 2200, 'PIZZ001', TO_DATE('2023-03-20', 'YYYY-MM-DD'), 'alex.g@pizzerie1.ro');
+INSERT INTO Angajat (ID_Angajat, Nume, Specializare, Salariu, ID_Pizzerie, Data_Angajare, Email) VALUES (4, 'Andrei Popa', 'Buc?tar', 3200, 'PIZZ002', TO_DATE('2023-01-12', 'YYYY-MM-DD'), 'andrei.p@pizzerie2.ro');
+INSERT INTO Angajat (ID_Angajat, Nume, Specializare, Salariu, ID_Pizzerie, Data_Angajare, Email) VALUES (5, 'Elena Stoica', 'Menajera', 2400, 'PIZZ002', TO_DATE('2023-03-18', 'YYYY-MM-DD'), 'elena.s@pizzerie2.ro');
+INSERT INTO Angajat (ID_Angajat, Nume, Specializare, Salariu, ID_Pizzerie, Data_Angajare, Email) VALUES (6, 'Mihai Radu', 'Ospatar', 2100, 'PIZZ002', TO_DATE('2023-04-25', 'YYYY-MM-DD'), 'mihai.r@pizzerie2.ro');
+INSERT INTO Angajat (ID_Angajat, Nume, Specializare, Salariu, ID_Pizzerie, Data_Angajare, Email) VALUES (7, 'Gabriel Dumitru', 'Buc?tar', 3300, 'PIZZ003', TO_DATE('2023-02-01', 'YYYY-MM-DD'), 'gabriel.d@pizzerie3.ro');
+INSERT INTO Angajat (ID_Angajat, Nume, Specializare, Salariu, ID_Pizzerie, Data_Angajare, Email) VALUES (8, 'Ana Matei', 'Menajera', 2600, 'PIZZ003', TO_DATE('2023-03-10', 'YYYY-MM-DD'), 'ana.m@pizzerie3.ro');
+INSERT INTO Angajat (ID_Angajat, Nume, Specializare, Salariu, ID_Pizzerie, Data_Angajare, Email) VALUES (9, 'George Marinescu', 'Ospatar', 2300, 'PIZZ003', TO_DATE('2023-05-30', 'YYYY-MM-DD'), 'george.m@pizzerie3.ro');
+INSERT INTO Angajat (ID_Angajat, Nume, Specializare, Salariu, ID_Pizzerie, Data_Angajare, Email) VALUES (10, 'Florin Vasilescu', 'Buc?tar', 3400, 'PIZZ004', TO_DATE('2023-01-20', 'YYYY-MM-DD'), 'florin.v@pizzerie4.ro');
+INSERT INTO Angajat (ID_Angajat, Nume, Specializare, Salariu, ID_Pizzerie, Data_Angajare, Email) VALUES (11, 'Cristina Tudor', 'Menajera', 2550, 'PIZZ004', TO_DATE('2023-02-28', 'YYYY-MM-DD'), 'cristina.t@pizzerie4.ro');
+INSERT INTO Angajat (ID_Angajat, Nume, Specializare, Salariu, ID_Pizzerie, Data_Angajare, Email) VALUES (12, 'Daniela Enache', 'Ospatar', 2250, 'PIZZ004', TO_DATE('2023-04-12', 'YYYY-MM-DD'), 'daniela.e@pizzerie4.ro');
+INSERT INTO Angajat (ID_Angajat, Nume, Specializare, Salariu, ID_Pizzerie, Data_Angajare, Email) VALUES (13, 'Radu Moldovan', 'Buc?tar', 3100, 'PIZZ005', TO_DATE('2023-03-05', 'YYYY-MM-DD'), 'radu.m@pizzerie5.ro');
+INSERT INTO Angajat (ID_Angajat, Nume, Specializare, Salariu, ID_Pizzerie, Data_Angajare, Email) VALUES (14, 'Ioana Pavel', 'Menajera', 2450, 'PIZZ005', TO_DATE('2023-05-08', 'YYYY-MM-DD'), 'ioana.p@pizzerie5.ro');
+INSERT INTO Angajat (ID_Angajat, Nume, Specializare, Salariu, ID_Pizzerie, Data_Angajare, Email) VALUES (15, 'Diana Petrescu', 'Ospatar', 2150, 'PIZZ005', TO_DATE('2023-06-15', 'YYYY-MM-DD'), 'diana.p@pizzerie5.ro');
+INSERT INTO Angajat (ID_Angajat, Nume, Specializare, Salariu, ID_Pizzerie, Data_Angajare, Email) VALUES (16, 'Romica Becus', 'Ospatar', 2420, 'PIZZ006', TO_DATE('2023-06-08', 'YYYY-MM-DD'), 'romi.p@pizzerie6.ro');
+
+select * from angajat;
+
+
+
+
+insert into Pizza (ID_Pizza, Nume, Tip, Pret) VALUES ('P1', 'Margherita', 'Vegetarian', 30);
+insert into Pizza (ID_Pizza, Nume, Tip, Pret) VALUES ('P2', 'Diavola', 'Picant', 40);
+insert into Pizza (ID_Pizza, Nume, Tip, Pret) VALUES ('P3', 'Quattro Formaggi', 'Nepicant', 45);
+insert into Pizza (ID_Pizza, Nume, Tip, Pret) VALUES ('P4', 'Veggie Delight', 'Vegetarian', 35);
+insert into Pizza (ID_Pizza, Nume, Tip, Pret) VALUES ('P5', 'Prosciutto Funghi', 'Nepicant', 50);
+insert into Pizza (ID_Pizza, Nume, Tip, Pret) VALUES ('P6', 'Ananas', 'Dulce', 59);
+SELECT * FROM Pizza;
+
+
+
+
+INSERT INTO Comanda (ID_Comanda, Data_Comanda, ID_Pizzerie, ID_Client)VALUES (1, TO_DATE('2023-07-10', 'YYYY-MM-DD'), 'PIZZ001', 1);
+INSERT INTO Comanda (ID_Comanda, Data_Comanda, ID_Pizzerie, ID_Client)VALUES (2, TO_DATE('2023-07-12', 'YYYY-MM-DD'), 'PIZZ002', 2);
+INSERT INTO Comanda (ID_Comanda, Data_Comanda, ID_Pizzerie, ID_Client)VALUES (3, TO_DATE('2023-07-15', 'YYYY-MM-DD'), 'PIZZ003', 3);
+INSERT INTO Comanda (ID_Comanda, Data_Comanda, ID_Pizzerie, ID_Client)VALUES (4, TO_DATE('2023-07-18', 'YYYY-MM-DD'), 'PIZZ004', 4);
+INSERT INTO Comanda (ID_Comanda, Data_Comanda, ID_Pizzerie, ID_Client)VALUES (5, TO_DATE('2023-07-20', 'YYYY-MM-DD'), 'PIZZ005', 5);
+INSERT INTO Comanda (ID_Comanda, Data_Comanda, ID_Pizzerie, ID_Client)VALUES (6, TO_DATE('2023-07-22', 'YYYY-MM-DD'), 'PIZZ001', 2);
+INSERT INTO Comanda (ID_Comanda, Data_Comanda, ID_Pizzerie, ID_Client)VALUES (7, TO_DATE('2023-07-25', 'YYYY-MM-DD'), 'PIZZ003', 4);
+INSERT INTO Comanda (ID_Comanda, Data_Comanda, ID_Pizzerie, ID_Client)VALUES (8, TO_DATE('2022-07-25', 'YYYY-MM-DD'), 'PIZZ003', 1);
+INSERT INTO Comanda (ID_Comanda, Data_Comanda, ID_Pizzerie, ID_Client)VALUES (9, TO_DATE('2023-07-12', 'YYYY-MM-DD'), 'PIZZ005', 3);
+INSERT INTO Comanda (ID_Comanda, Data_Comanda, ID_Pizzerie, ID_Client)VALUES (10, TO_DATE('2023-07-25', 'YYYY-MM-DD'), 'PIZZ003', 2);
+INSERT INTO Comanda (ID_Comanda, Data_Comanda, ID_Pizzerie, ID_Client)VALUES (11, TO_DATE('2023-07-21', 'YYYY-MM-DD'), 'PIZZ002', 6);
+select * from comanda;
+
+
+
+
+insert into Promotie (ID_Promotie, Data_Start, Data_Stop, Valoare_Reducere, ID_Pizza) VALUES (1, TO_DATE('2024-06-01', 'YYYY-MM-DD'), TO_DATE('2024-06-15', 'YYYY-MM-DD'), 20, 'P1');
+insert into Promotie (ID_Promotie, Data_Start, Data_Stop, Valoare_Reducere, ID_Pizza) VALUES (2, TO_DATE('2024-06-16', 'YYYY-MM-DD'), TO_DATE('2024-06-30', 'YYYY-MM-DD'), 25, 'P2');
+insert into Promotie (ID_Promotie, Data_Start, Data_Stop, Valoare_Reducere, ID_Pizza) VALUES (3, TO_DATE('2024-07-01', 'YYYY-MM-DD'), TO_DATE('2024-07-15', 'YYYY-MM-DD'), 15, 'P3');
+insert into Promotie (ID_Promotie, Data_Start, Data_Stop, Valoare_Reducere, ID_Pizza) VALUES (4, TO_DATE('2024-07-16', 'YYYY-MM-DD'), TO_DATE('2024-07-31', 'YYYY-MM-DD'), 30, 'P4');
+insert into Promotie (ID_Promotie, Data_Start, Data_Stop, Valoare_Reducere, ID_Pizza) VALUES (5, TO_DATE('2024-08-01', 'YYYY-MM-DD'), TO_DATE('2024-08-15', 'YYYY-MM-DD'), 20, 'P5');
+SELECT * FROM Promotie;
+
+
+
+INSERT INTO Recenzie (ID_Recenzie, Data_Recenzie, Rating, Comentariu, ID_Client, ID_Pizzerie) VALUES (1, TO_DATE('2024-05-10', 'YYYY-MM-DD'), 5, 'Pizza excelent?!', 1, 'PIZZ001');
+INSERT INTO Recenzie (ID_Recenzie, Data_Recenzie, Rating, Comentariu, ID_Client, ID_Pizzerie) VALUES (2, TO_DATE('2024-05-11', 'YYYY-MM-DD'), 4, 'Serviciu foarte bun.', 2, 'PIZZ001');
+INSERT INTO Recenzie (ID_Recenzie, Data_Recenzie, Rating, Comentariu, ID_Client, ID_Pizzerie) VALUES (3, TO_DATE('2024-05-12', 'YYYY-MM-DD'), 3, 'Experien?? medie.', 3, 'PIZZ003');
+INSERT INTO Recenzie (ID_Recenzie, Data_Recenzie, Rating, Comentariu, ID_Client, ID_Pizzerie) VALUES (4, TO_DATE('2024-05-13', 'YYYY-MM-DD'), 2, 'Ar putea fi mai bine.', 4, 'PIZZ004');
+INSERT INTO Recenzie (ID_Recenzie, Data_Recenzie, Rating, Comentariu, ID_Client, ID_Pizzerie) VALUES (5, TO_DATE('2024-05-14', 'YYYY-MM-DD'), 1, 'Nu sunt mul?umit.', 5, 'PIZZ005');
+select * from recenzie;
+
+SELECT * FROM Recenzie;
+
+
+INSERT INTO COMANDA_PIZZA (ID_Pizza, ID_Comanda, Cantitate) VALUES ('P1', 1,1);
+INSERT INTO COMANDA_PIZZA (ID_Pizza, ID_Comanda, Cantitate) VALUES ('P1', 2,2);
+INSERT INTO COMANDA_PIZZA (ID_Pizza, ID_Comanda, Cantitate) VALUES ('P2', 3,1);
+INSERT INTO COMANDA_PIZZA (ID_Pizza, ID_Comanda, Cantitate) VALUES ('P2', 4,1);
+INSERT INTO COMANDA_PIZZA (ID_Pizza, ID_Comanda, Cantitate) VALUES ('P3', 5,3);
+INSERT INTO COMANDA_PIZZA (ID_Pizza, ID_Comanda, Cantitate) VALUES ('P4', 6,2);
+INSERT INTO COMANDA_PIZZA (ID_Pizza, ID_Comanda, Cantitate) VALUES ('P4', 1, 1);
+INSERT INTO COMANDA_PIZZA (ID_Pizza, ID_Comanda, Cantitate) VALUES ('P5', 1,2);
+INSERT INTO COMANDA_PIZZA (ID_Pizza, ID_Comanda, Cantitate) VALUES ('P5', 3,2);
+INSERT INTO COMANDA_PIZZA (ID_Pizza, ID_Comanda, Cantitate) VALUES ('P5', 5,4);
+INSERT INTO COMANDA_PIZZA (ID_Pizza, ID_Comanda, Cantitate) VALUES ('P2', 2,3);
+INSERT INTO COMANDA_PIZZA (ID_Pizza, ID_Comanda, Cantitate) VALUES ('P3', 4,1);
+INSERT INTO COMANDA_PIZZA (ID_Pizza, ID_Comanda, Cantitate) VALUES ('P3', 6,2);
+INSERT INTO COMANDA_PIZZA (ID_Pizza, ID_Comanda, Cantitate) VALUES ('P1', 7,1);
+INSERT INTO COMANDA_PIZZA (ID_Pizza, ID_Comanda, Cantitate) VALUES ('P4', 2,1);
+INSERT INTO COMANDA_PIZZA (ID_Pizza, ID_Comanda, Cantitate) VALUES ('P1', 8,1);
+INSERT INTO COMANDA_PIZZA (ID_Pizza, ID_Comanda, Cantitate) VALUES ('P2', 9,2);
+INSERT INTO COMANDA_PIZZA (ID_Pizza, ID_Comanda, Cantitate) VALUES ('P2', 11,3);
+select * from comanda_pizza;
+
+
+
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+set serveroutput on;
+
+--Sa se afiseze, pentru fiecare client, toate pizzele comandate de acesta impreuna cu pizzeria in care a efectuat comanda pentru comenzie efectuate intr-o anumita perioada de timp.
+CREATE OR REPLACE PROCEDURE EX_6 (
+  p_data_start DATE,
+  p_data_stop DATE
+) IS
+
+  TYPE Tablou_Pizzas IS TABLE OF VARCHAR2(50);
+  TYPE Tablou_Clienti_Pizzerii IS TABLE OF VARCHAR2(50) INDEX BY PLS_INTEGER;
+  TYPE Vector_Comenzi IS VARRAY(100) OF VARCHAR2(100);
+  
+  clienti_pizzerii Tablou_Clienti_Pizzerii;
+  v_comenzi Vector_Comenzi := Vector_Comenzi();
+  pizzas Tablou_Pizzas := Tablou_Pizzas();
+  v_index PLS_INTEGER := 0;
+  v_comanda VARCHAR2(100);
+BEGIN
+  FOR comanda IN (
+    SELECT c.nume AS nume_client, p.nume AS nume_pizzerie, z.nume AS nume_pizza
+    FROM Comanda o
+    JOIN Client c ON o.ID_Client = c.ID_Client
+    JOIN Pizzerie p ON o.ID_Pizzerie = p.ID_Pizzerie
+    JOIN COMANDA_PIZZA cp ON o.ID_Comanda = cp.ID_Comanda
+    JOIN Pizza z ON cp.ID_Pizza = z.ID_Pizza
+    WHERE o.Data_Comanda BETWEEN p_data_start AND p_data_stop
+  )
+  LOOP
+    v_index := v_index + 1;
+    clienti_pizzerii(v_index) := comanda.nume_client || ' la ' || comanda.nume_pizzerie;
+    pizzas.EXTEND;
+    pizzas(pizzas.COUNT) := comanda.nume_pizza;
+    v_comanda := clienti_pizzerii(v_index) || ': ' || pizzas(pizzas.COUNT);
+    
+    
+      v_comenzi.EXTEND;
+      v_comenzi(v_comenzi.COUNT) := v_comanda;
+   
+  END LOOP;
+  
+  DBMS_OUTPUT.PUT_LINE('Lista comenzilor:');
+  FOR i IN 1 .. v_comenzi.COUNT LOOP
+    DBMS_OUTPUT.PUT_LINE(v_comenzi(i));
+  END LOOP;
+END;
+/
+
+
+
+
+BEGIN
+  EX_6(TO_DATE('2023-07-15', 'YYYY-MM-DD'), TO_DATE('2023-07-31', 'YYYY-MM-DD'));
+END;
+/
+
+
+
+
+
+------------------------------------------------------------------------------------------------------
+--Pentru fiecare pizzerie in parte, sa se afiseze cea mai comandata pizza, tipul acesteia, de cate ori a fost comandata si data ultimei comenzi efectuate.
+CREATE OR REPLACE PROCEDURE EX_7
+IS
+  CURSOR c_pizzerii IS
+    SELECT ID_Pizzerie, Nume
+    FROM Pizzerie;
+
+  CURSOR c_pizza_populara(p_id_pizzerie VARCHAR2) IS
+    SELECT p.Nume, p.Tip, SUM(cp.Cantitate) AS Total_Comenzi, MAX(c.Data_Comanda) AS Ultima_Comanda
+    FROM Pizza p
+    JOIN COMANDA_PIZZA cp ON p.ID_Pizza = cp.ID_Pizza
+    JOIN Comanda c ON cp.ID_Comanda = c.ID_Comanda
+    WHERE c.ID_Pizzerie = p_id_pizzerie
+    GROUP BY p.Nume, p.Tip
+    ORDER BY Total_Comenzi DESC;
+
+  v_Nume Pizza.Nume%TYPE;
+  v_Tip Pizza.Tip%TYPE;
+  v_Total_Comenzi NUMBER;
+  v_Ultima_Comanda DATE;
+
+BEGIN
+  FOR pizzerie IN c_pizzerii LOOP
+    DBMS_OUTPUT.PUT_LINE('Pizzerie: ' || pizzerie.Nume);
+
+    OPEN c_pizza_populara(pizzerie.ID_Pizzerie);
+
+    FETCH c_pizza_populara INTO v_Nume, v_Tip, v_Total_Comenzi, v_Ultima_Comanda;
+    
+    IF c_pizza_populara%FOUND THEN
+      DBMS_OUTPUT.PUT_LINE('  Pizza Populara: ' || v_Nume);
+      DBMS_OUTPUT.PUT_LINE('  Tip: ' || v_Tip);
+      DBMS_OUTPUT.PUT_LINE('  Total Comenzi: ' || v_Total_Comenzi);
+      DBMS_OUTPUT.PUT_LINE('  Ultima Comanda: ' || TO_CHAR(v_Ultima_Comanda, 'DD-MON-YYYY'));
+    ELSE
+      DBMS_OUTPUT.PUT_LINE('  Nu s-au gasit comenzi pentru aceasta pizzerie.');
+    END IF;
+
+    CLOSE c_pizza_populara;
+    
+    DBMS_OUTPUT.PUT_LINE('-----------------------------');
+  END LOOP;
+END EX_7;
+/
+
+
+BEGIN
+  EX_7;
+END;
+/
+
+
+----------------------------------------------------------------------------------
+--Pentru fiecare pizzerie, sa se afiseze nr de recenzii, respectiv de comenzi efectuate in cadrul acesteia si valoarea totala a comenzilor. Sa se trateze cazurile in care pizzeria fie nu exista, fie nu au fost efectuate comenzi si recenzii.
+
+CREATE OR REPLACE FUNCTION EX_8(p_id_pizzerie VARCHAR2)
+RETURN VARCHAR2
+IS
+    v_nume_pizzerie VARCHAR2(10);
+    v_nr_recenzii INT;
+    v_nr_comenzi INT;
+    v_suma_totala INT;
+    
+    
+    Pizzerie_Inexistenta EXCEPTION;
+    Fara_Activitate EXCEPTION;
+
+BEGIN
+    
+    BEGIN
+        SELECT Nume INTO v_nume_pizzerie 
+        FROM Pizzerie 
+        WHERE ID_Pizzerie = p_id_pizzerie;
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            RAISE Pizzerie_Inexistenta;
+    END;
+
+   
+    SELECT COUNT(*) INTO v_nr_recenzii
+    FROM Recenzie
+    WHERE ID_Pizzerie = p_id_pizzerie;
+
+
+    SELECT COUNT(*) INTO v_nr_comenzi
+    FROM Comanda
+    WHERE ID_Pizzerie = p_id_pizzerie;
+
+
+    SELECT NVL(SUM(cp.Cantitate * p.Pret), 0) INTO v_suma_totala
+    FROM COMANDA_PIZZA cp
+    JOIN Pizza p ON cp.ID_Pizza = p.ID_Pizza
+    JOIN Comanda c ON cp.ID_Comanda = c.ID_Comanda
+    WHERE c.ID_Pizzerie = p_id_pizzerie;
+
+
+    IF v_nr_recenzii = 0 AND v_nr_comenzi = 0 THEN
+        RAISE Fara_Activitate;
+    END IF;
+
+   
+    RETURN 'Pizzerie: ' || v_nume_pizzerie || ', Recenzii: ' || v_nr_recenzii || ', Comenzi: ' || v_nr_comenzi || ', Suma totala: ' || v_suma_totala || ' lei';
+    
+EXCEPTION
+    WHEN Pizzerie_Inexistenta THEN
+        RETURN 'Pizzeria cu ID-ul ' || p_id_pizzerie || ' nu exista.';
+    WHEN Fara_Activitate THEN
+        RETURN 'Pizzeria ' || v_nume_pizzerie || ' nu are nicio activitate (fara comenzi si recenzii).';
+    
+END;
+/
+
+BEGIN
+DBMS_OUTPUT.PUT_LINE(EX_8('PIZZ001'));
+DBMS_OUTPUT.PUT_LINE(EX_8('PIZ99'));
+DBMS_OUTPUT.PUT_LINE(EX_8('PIZZ006'));
+END;
+/
+
+
+
+--------------------------------------------------------------------------------------------------------
+--Pentru un client dat dupa nume, sa se afiseze toate pizzele comandate de acesta,  respectiv in ce pizzerii au fost comandate intr-o perioada specificata.
+CREATE OR REPLACE PROCEDURE EX_9(
+    p_Nume_Client IN Client.Nume%TYPE,
+    p_Data_Start IN DATE,
+    p_Data_Stop IN DATE
+)
+IS
+    v_Nume_Pizzerie Pizzerie.Nume%TYPE;
+    v_Nume_Pizza Pizza.Nume%TYPE;
+    v_Tip_Pizza Pizza.Tip%TYPE;
+    v_Cursor SYS_REFCURSOR;
+    v_Client_Count INT;
+    
+   
+    invalid_characters EXCEPTION;
+    PRAGMA EXCEPTION_INIT(invalid_characters, -20001);
+    
+BEGIN
+    
+    IF NOT REGEXP_LIKE(p_Nume_Client, '^[A-Za-z ]+$') THEN
+        RAISE invalid_characters;
+    END IF;
+
+    
+    SELECT COUNT(*)
+    INTO v_Client_Count
+    FROM Client
+    WHERE Nume = p_Nume_Client;
+
+    IF v_Client_Count > 1 THEN
+        RAISE TOO_MANY_ROWS;
+    ELSIF v_Client_Count = 0 THEN
+        RAISE NO_DATA_FOUND;
+    END IF;
+
+    
+    OPEN v_Cursor FOR
+        SELECT pz.Nume AS Nume_Pizzerie, 
+               pi.Nume AS Nume_Pizza, 
+               pi.Tip AS Tip_Pizza
+        FROM Client c
+        JOIN Comanda co ON c.ID_Client = co.ID_Client
+        JOIN Pizzerie pz ON co.ID_Pizzerie = pz.ID_Pizzerie
+        JOIN COMANDA_PIZZA cp ON co.ID_Comanda = cp.ID_Comanda
+        JOIN Pizza pi ON cp.ID_Pizza = pi.ID_Pizza
+        WHERE c.Nume = p_Nume_Client
+          AND co.Data_Comanda BETWEEN p_Data_Start AND p_Data_Stop;
+
+    
+    FETCH v_Cursor INTO v_Nume_Pizzerie, v_Nume_Pizza, v_Tip_Pizza;
+    
+    IF v_Cursor%NOTFOUND THEN
+        RAISE NO_DATA_FOUND;
+    END IF;
+
+    
+    LOOP
+        EXIT WHEN v_Cursor%NOTFOUND;
+        DBMS_OUTPUT.PUT_LINE('Pizzerie: ' || v_Nume_Pizzerie || ', Pizza: ' || v_Nume_Pizza || ' (' || v_Tip_Pizza || ')');
+        FETCH v_Cursor INTO v_Nume_Pizzerie, v_Nume_Pizza, v_Tip_Pizza;
+    END LOOP;
+
+    CLOSE v_Cursor;
+
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('Niciun client cu numele  ' || p_Nume_Client || ' nu a plasat vreo comanda in perioada specificata.');
+    WHEN TOO_MANY_ROWS THEN
+        DBMS_OUTPUT.PUT_LINE('Exista mai multi clienti cu numele ' || p_Nume_Client || '.');
+    WHEN invalid_characters THEN
+        DBMS_OUTPUT.PUT_LINE('Numele clientului contine caractere invalide.');
+    
+END EX_9;
+/
+
+
+BEGIN
+    EX_9('Mihai Ionescu', TO_DATE('2023-01-01', 'YYYY-MM-DD'), TO_DATE('2023-12-31', 'YYYY-MM-DD'));
+    EX_9('Mihai Radu', TO_DATE('2023-01-01', 'YYYY-MM-DD'), TO_DATE('2023-12-31', 'YYYY-MM-DD'));
+    EX_9('Elena Radu', TO_DATE('2023-01-01', 'YYYY-MM-DD'), TO_DATE('2023-12-31', 'YYYY-MM-DD'));
+    EX_9('El%na Radu', TO_DATE('2023-01-01', 'YYYY-MM-DD'), TO_DATE('2023-12-31', 'YYYY-MM-DD'));
+END;
+/
+
+
+----------------------------------------------------------------------------------------------------------------------
+--Creati un trigger care interzice angajarea bucatarilor in luna iulie 2024.
+CREATE OR REPLACE TRIGGER EX_10
+BEFORE INSERT OR UPDATE ON Angajat
+FOR EACH ROW
+BEGIN
+   
+    IF (EXTRACT(YEAR FROM :NEW.Data_Angajare) = 2024 AND EXTRACT(MONTH FROM :NEW.Data_Angajare) = 7) AND
+       (:NEW.Specializare = 'Bucatar') THEN
+        RAISE_APPLICATION_ERROR(-20001, 'Nu se pot angaja bucatari în luna iulie 2024. Este prea cald !');
+    END IF;
+END;
+/
+
+
+
+BEGIN
+ INSERT INTO Angajat (ID_Angajat, Nume, Specializare, Salariu, ID_Pizzerie, Data_Angajare, Email) VALUES (17, 'Armando Dobre', 'Bucatar', 4320, 'PIZZ003', TO_DATE('2024-07-16', 'YYYY-MM-DD'), 'armando.p@pizzerie3.ro');
+END;
+/
+
+-------------------------------------------------------------------------------------------
+--Creati un trigger care interzice modificarea notelor acordate in recenzie.
+CREATE OR REPLACE TRIGGER EX_11
+BEFORE UPDATE ON Recenzie
+FOR EACH ROW
+BEGIN
+    
+    IF :OLD.Rating != :NEW.Rating THEN
+        RAISE_APPLICATION_ERROR(-20001, 'Nu se poate modifica rating-ul acordat în review-uri.');
+    END IF;
+END;
+/
+
+
+BEGIN
+ UPDATE Recenzie SET Rating = 3 WHERE
+Recenzie.ID_Recenzie=2;
+END;
+/
+
+--------------------------------------------------------------------------
+--Creati un trigger care sa permita modificarea pretului pizzelor doar de utilizatorul darius1843
+CREATE OR REPLACE TRIGGER EX_12
+BEFORE UPDATE OF Pret ON Pizza
+FOR EACH ROW
+BEGIN
+    
+    IF SYS_CONTEXT('USERENV', 'SESSION_USER') != 'DARIUS1843' THEN
+        RAISE_APPLICATION_ERROR(-20001, 'Numai administratorul pizzeriei poate modifica pretul pizzei.');
+    END IF;
+END;
+/
+
+select * from pizza;
+UPDATE Pizza
+SET Pret = 31
+WHERE ID_Pizza = 'P1';
